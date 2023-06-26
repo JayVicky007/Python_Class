@@ -65,11 +65,11 @@ print(response2)
 # recursion
 def sum(a, b):
 
-#     if a > 0:
-#         print(a, b)
-#         a -= 1
-#         sum(a, b)
-# sum(4, 2)
+    if a > 0:
+        print(a, b)
+        a -= 1
+        sum(a, b)
+sum(4, 2)
 
 
 

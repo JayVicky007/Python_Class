@@ -17,6 +17,7 @@ operations on their accounts.
 
 '''
 
+
 class BankAccount:
     def __init__(self, account_number, account_holder_name, account_type, balance=0):
         self.account_number = account_number
@@ -28,23 +29,32 @@ class BankAccount:
     def deposit(self, amount):
         if amount > 0:
             self.balance += amount
-            self.transaction_history.append(f"You deposited: {amount}")
-            return "Successful"
+            self.transaction_history.append(f"{self.account_holder_name} deposited {amount} naira")
+            return f"${amount} Deposited"
 
     def withdraw(self, amount):
         if amount > self.balance:
             return "Insufficient Funds"
         self.balance -= amount
-        self.transaction_history.append(f"You withdrew: {amount}")
-        return "Successful"
+        self.transaction_history.append(f"{self.account_holder_name} withdrew {amount} naira")
+        return f"${amount} Withdrawn"
 
     def check_balance(self):
-        return self.balance
+        if self.account_holder_name and self.account_number:
+            return f"Your account balance: {self.balance}"
+        else:
+            return f"Invalid Credentials"
 
     def display_transaction_history(self):
-        for transaction in self.transaction_history:
-            print(transaction)
+        # for transaction in self.transaction_history:
+        #     print(transaction)
+        with open(f"transaction_history.txt", "r") as file:
+            result = file.read()
+        return result
 
+    def add_transaction(self, message):
+            with open("transaction_history.txt", "a") as file:
+                file.write(f"{message}\n")
 
 def main():
     accounts = []
@@ -64,7 +74,7 @@ def main():
             account_number = input("Enter account number: ")
             new_account = BankAccount(account_number, name, account_type)
             accounts.append(new_account)
-            print("Account created successfully.")
+            print("Account created successfully!")
 
         elif response == "2":
             name = input("Enter your name: ")
@@ -100,6 +110,7 @@ def main():
             for account in accounts:
                 if account.account_holder_name == name:
                     account.display_transaction_history()
+                    print("Your transaction history:", account.transaction_history)
                     break
             else:
                 print("Can't find your account.")

@@ -1,6 +1,6 @@
 # import requests
 
-# response = requests.get(["https://api.publicapis.org/entries"])
+# response = requests.get("https://api.publicapis.org/entries")
 
 # # print(response.content)
 # print(response.status_code)

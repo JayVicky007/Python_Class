@@ -1,0 +1,2 @@
+You deposited: 22000000
+You withdrew: 1000000

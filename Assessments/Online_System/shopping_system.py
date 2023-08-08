@@ -26,12 +26,6 @@ class Customer:
         self.email = email
         self.shipping_address = shipping_address
 
-class OrderItem:
-    def __init__(self, product_id, quantity, sub_total):
-        self.product_id = product_id
-        self.quantity = quantity
-        self.sub_total = sub_total
-
 class Order:
     def __init__(self, order_id, order_date, customer_id, total_amount, items):
         self.order_id = order_id
@@ -39,6 +33,22 @@ class Order:
         self.customer_id = customer_id
         self.total_amount = total_amount
         self.items = items
+
+class OrderItem:
+    def __init__(self, product_id, quantity, sub_total):
+        self.product_id = product_id
+        self.quantity = quantity
+        self.sub_total = sub_total
+
+class OrderHistory:
+    def __init__(self, order_id, order_date, total_amount, product_name, quantity, sub_total):
+        self.order_id = order_id
+        self.order_date = order_date
+        self.total_amount = total_amount
+        self.product_name = product_name
+        self.quantity = quantity
+        self.sub_total = sub_total
+
 
 class DB:
     def __init__(self):
@@ -70,10 +80,6 @@ class DB:
             f'UPDATE {self.productT} SET name = %s, category = %s, price = %s, stock_quantity = %s WHERE product_id = %s',
             (product.name, product.category, product.price, product.stock_quantity, product.product_id))
         self.__db.commit()
-
-    def get_all_data(self, tableName):
-        self.__cursor.execute(f'SELECT * FROM {tableName}')
-        return self.__cursor.fetchall()
     
     def add_customer(self, customer: Customer):
         self.__cursor.execute(
@@ -99,37 +105,82 @@ class DB:
             f'SELECT * FROM {table_name} WHERE customer_id = %s',
             (customer_id,))
         return self.__cursor.fetchall()
+        
+    def view_order_history(self, customer_id):
+        self.__cursor.execute(
+            f'SELECT order_id, order_date, total_amount FROM {self.orderT} WHERE customer_id = %s', (customer_id,))
+        
+        order_history = []
+        for row in self.__cursor.fetchall():
+            order_id, order_date, total_amount = row
+            order_history.append(Order(order_id, order_date, customer_id, total_amount, []))  # Assuming your Order class constructor requires an items argument.
+        
+        return order_history 
     
+    def get_all_products(self):
+        self.__cursor.execute(f'SELECT * FROM {self.productT}')
+        rows = self.__cursor.fetchall()
+        products = []
+        for row in rows:
+            product_id, name, category, price, stock_quantity = row
+            product = Product(product_id, name, category, price, stock_quantity)
+            products.append(product)
+        return products    
+    
+
     def close(self):
         self.__db.close()
 
 
-if __name__ == "__main__":
+def main():
     db = DB()
-
-    # product = Product(1, 'Fan', 'Electronics', 500.0, 10)
-    # customer = Customer(1, 'John Dew', 'john@gmail.com', '123 Main St, City')
-    # order_item = OrderItem(1, 2, 1000)
-
-    # db.add_product(product)
-    # db.add_customer(customer)
-    # db.update_product(Product(1, 'Fridge', 'Electronics', 600.0, 5))
-
-    products = db.get_all_data('products')
-    for product in products:
-        print(product[1])  # Index 1 corresponds to the name column
-
-    # items = [order_item]
-    # db.place_order(1, sum(item.sub_total for item in items))
-
-    # retrieved_product = db.get_product_by_id(1)
-    # print(retrieved_product.name)
-
-    # retrieved_customer = db.get_customer_by_id(1)
-    # print(retrieved_customer.name)
-
-    # orders = db.get_order('orders', 1)
-    # for order in orders:
-    #     print(f"Order ID: {order.order_id}, Total Amount: {order.total_amount}")
+    
+    print("Welcome to SuperMart - Your Online Shopping Destination!")
+    
+    while True:
+        print("1. Browse products")
+        print("2. Add a product to cart")
+        print("3. View cart")
+        print("4. Place an order")
+        print("5. View order history")
+        print("6. Register as a new customer")
+        print("7. Update customer information")
+        print("8. Exit")
+        
+        choice = input("Please select an option: ")
+        
+        if choice == '1':
+            print("\n--Available Products--")
+            products = db.get_all_products()
+            for product in products:
+                print(f"Product ID: {product.product_id} | Name: {product.name} | Category: {product.category} | Price: ${product.price:.2f} | Stock Quantity: {product.stock_quantity}")   
+        
+        elif choice == '2':
+            pass
+        
+        elif choice == '3':
+            pass
+        
+        elif choice == '4':
+            pass
+        
+        elif choice == '5':
+            pass
+        
+        elif choice == '6':
+            pass
+        
+        elif choice == '7':
+            pass
+        
+        elif choice == '8':
+            print("Thank you for using SuperMart. Goodbye!")
+            break
+        
+        else:
+            print("Invalid choice. Please select a valid option.")
 
     db.close()
+
+if __name__ == "__main__":
+    main()

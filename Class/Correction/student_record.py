@@ -3,46 +3,61 @@ class Student:
         self.id = id
         self.name = name
         self.age = age
-
-    def format_data(self):
-        return f'{self.id} {self.name} {self.age}'
     
-    def reformat_data(self):
-        data = data.strip("\n").split(",")
-        
+    def format_data(self):
+        return f'{self.id},{self.name},{self.age}\n'
+    
+    @classmethod
+    def reformat_data(cls, data : str):
+        data = data.strip('\n').split(',')
+        id = int(data[0])
+        name = data[1]
+        age = int(data[2])
+        return cls(id, name, age)
 
+    def __str__(self):
+        # return self.format_data()
+        return f"Student ID: self.id, Name: {self.name}, Age: {self.age}"
+    
 class StudentRecordManager:
     def add_student(self, student: Student):
-        with open("student_data.txt", "a") as f:
+        with open('student_data.txt', 'a') as f:
             f.write(student.format_data())
 
     def get_student(self, id):
-        with open("student_data.txt", "r") as f:
-            if len(f.readlines) == 0:
-                return "No student in file"
-            for student in f.readlines():
-                if str(id) == student.split(",")[0]:
-                    return student
-                else:
-                    return "Could not find student"
+        with open('student_data.txt', 'r') as f:
+            student_data = f.readlines()
+            if len(student_data) == 0:
+                return 'No student in file'
+            for student in student_data:
+                if str(id) == student.split(',')[0]:
+                    return Student.reformat_data(student)
+            else:
+                return 'Could not find student'
 
-    def update_student(self, id):
-        with open("student_data.txt", "r") as f:
-            if len(f.readlines) == 0:
-                return "No student in file"
+    def update_student(self, data: Student):
+
+        with open('student_data.txt', 'r') as f:
+
+            student_data = f.readlines()
+            if len(student_data) == 0:
+                return 'No student in file'
             updates = []
-            for student in f.readlines():
-                if str(student.id) == student.split(",")[0]:
-                    updates.append(student.format_data())
+
+            for student in student_data:
+                if str(data.id) == student.split(',')[0]:
+                    updates.append(data.format_data())
                 else:
                     updates.append(student)
-
+        with open('student_data.txt', 'w') as f: 
             f.writelines(updates)
 
-manager = StudentRecordManager()
+def main():
 
-student1 = Student(1, "John Doe", 20)
-student2 = Student(2, "Jane Dow", 18)
+    manager = StudentRecordManager()
+    student1 = Student(1,'John Mark', 20)
+    student2 = Student(2,'James Philip', 23)
 
-# manager.add_student(student2)
+    print(manager.update_student(student2))
 
+main()

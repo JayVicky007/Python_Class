@@ -56,24 +56,6 @@ class Attendance:
         if group in self.groups:
             print(group)
     
-    # def add_new_student(self):
-    #     name = input("Enter student name: ")
-    #     number = input("Enter student number: ")
-    #     user = User(name, number)
-
-    # def admin_menu(self):
-    #     while True:
-    #         print("1. Add a new student")
-    #         print("2. Mark attendance for a student")
-    #         print("3. View atendance for a student")
-    #         print("4. Mark attendance for a student")
-    #         print("5. Generate attendance report")
-
-    #         choice = input("Enter a choice from 1-5")
-
-            # if choice == "1":
-            #     name = input
-
     def __str__(self):
         return self.group
     

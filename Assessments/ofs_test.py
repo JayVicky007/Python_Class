@@ -1,3 +1,29 @@
+'''
+Problem: Order Fulfillment System:
+You are tasked with implementing an order fulfillment system for an e-commerce company. The system should 
+allow users to place orders, process them, and track their status.
+
+Requirements:
+Implement a class called "Order" with the following
+attributes:
+order_id (string): unique identifier for each order
+items (list): a list of items included in the order
+status (string): current status of the order (e.g.,
+"pending", "processing", "shipped", "delivered")
+
+Implement a class called "OrderFulfillmentSystem"
+with the following methods:
+place_order(items: List[str]) > str: Creates a new
+order with the provided items and returns the order
+ID.
+process_order(order_id: str) -> None: Updates the
+status of the order with the given order ID to
+"processing".
+ship_order(order_id: str) > None: Updates the
+status of the order with the given order ID to
+"shipped".
+'''
+
 class Order:
     def __init__(self, order_id, items, status):
         self.order_id = order_id
@@ -43,38 +69,4 @@ ofs.ship_order(order_id)
 order_status = ofs.find_order(order_id).status
 print("Order status after shipping:", order_status)
 
-
-
-
-
-
-
-
-
-
-'''
-Problem: Order Fulfillment System:
-You are tasked with implementing an order fulfillment system for an e-commerce company. The system should 
-allow users to place orders, process them, and track their status.
-
-Requirements:
-Implement a class called "Order" with the following
-attributes:
-order_id (string): unique identifier for each order
-items (list): a list of items included in the order
-status (string): current status of the order (e.g.,
-"pending", "processing", "shipped", "delivered")
-
-Implement a class called "OrderFulfillmentSystem"
-with the following methods:
-place_order(items: List[str]) > str: Creates a new
-order with the provided items and returns the order
-ID.
-process_order(order_id: str) -> None: Updates the
-status of the order with the given order ID to
-"processing".
-ship_order(order_id: str) > None: Updates the
-status of the order with the given order ID to
-"shipped".
-'''
 

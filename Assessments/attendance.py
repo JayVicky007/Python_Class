@@ -107,10 +107,17 @@ def main():
             name = input("Enter the student's name: ")
             for user in group1.users + group2.users:
                 if user.name == name:
-                    print(f"Present")
+                    print(f"Attendance record for {user}: {attendance.view_attendance(user)}")
                     break
             else:
                 print("Student not found!")
+
+        elif choice == '4':
+            group = input("Enter the group to generate the attendance report (Python class/Java class): ").lower()
+            if group == "python class":
+                print(attendance.generate_attendance_report(group1))
+            elif group == "java class":
+                print(attendance.generate_attendance_report(group2))
 
         elif choice == '5':
             print("Exiting the program...")
